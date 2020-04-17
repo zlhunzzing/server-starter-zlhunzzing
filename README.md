@@ -6,3 +6,5 @@
 
 typescript
 express
+typeorm
+mysql

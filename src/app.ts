@@ -1,28 +1,29 @@
-import * as express from "express";
-import { createConnection } from "typeorm";
-import * as bodyParser from "body-parser";
+import * as express from 'express';
+import { createConnection, getRepository } from 'typeorm';
+import * as bodyParser from 'body-parser';
 
-import { Request, Response } from "express";
-import { getRepository } from "typeorm";
-import { User } from "../src/entity/User";
+import { Request, Response } from 'express';
+
+import User from './entity/User';
 
 const PORT = 3000;
 const app = express();
 
 createConnection()
-  .then(async (connection) => {
+  .then(async () => {
     app.use(bodyParser.json());
 
-    app.get("/", (req, res) => {
-      res.send("hello");
+    app.get('/', (req, res) => {
+      res.send('hello');
     });
 
-    app.get("/users", async function (req: Request, res: Response) {
+    app.get('/users', async (req: Request, res: Response) => {
       const users = await getRepository(User).find();
       res.json(users);
     });
 
     app.listen(PORT, () => {
+      // console.log(`Server listening on port ${PORT}`)
       console.log(`Server listening on port ${PORT}`);
     });
   })
